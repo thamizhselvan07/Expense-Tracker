@@ -8,10 +8,10 @@ export const dashboardService = {
     const income = totals.find((t) => t.type === 'INCOME');
     const expense = totals.find((t) => t.type === 'EXPENSE');
 
-    const totalIncome = Number(income?._sum.amount ?? 0);
-    const totalExpense = Number(expense?._sum.amount ?? 0);
+    const totalIncome = Number(income?._sum?.amount ?? 0);
+    const totalExpense = Number(expense?._sum?.amount ?? 0);
     const netBalance = totalIncome - totalExpense;
-    const transactionCount = (income?._count.id ?? 0) + (expense?._count.id ?? 0);
+    const transactionCount = Number((income?._count as any)?._all ?? 0) + Number((expense?._count as any)?._all ?? 0);
 
     return {
       summary: {

@@ -21,7 +21,8 @@ export const dashboardRepository = {
         by: ['type'],
         where,
         _sum: { amount: true },
-        _count: { id: true },
+        _count: { _all: true },
+        orderBy: { type: 'asc' },
       }),
       prisma.transaction.groupBy({
         by: ['type', 'categoryId'],

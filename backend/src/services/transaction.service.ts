@@ -56,9 +56,10 @@ export const transactionService = {
     const tx = await transactionRepository.findById(id, orgId);
     if (!tx) throw new NotFoundError('Transaction');
 
+    const { date, ...rest } = data;
     return transactionRepository.update(id, orgId, {
-      ...data,
-      ...(data.date ? { date: new Date(data.date) } : {}),
+      ...rest,
+      ...(date ? { date: new Date(date) } : {}),
     });
   },
 
