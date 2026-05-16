@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  ACCOUNTANT
+  USER
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+}
+
+model Organization {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users        User[]
+  transactions Transaction[]
+  categories   Category[]
+
+  @@index([slug])
+}
+
+model User {
+  id             String   @id @default(cuid())
+  email          String   @unique
+  passwordHash   String
+  name           String
+  role           Role     @default(USER)
+  orgId          String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  lastLoginAt    DateTime?
+
+  organization   Organization  @relation(fields: [orgId], references: [id])
+  refreshTokens  RefreshToken[]
+  transactions   Transaction[]
+
+  @@index([orgId])
+  @@index([email])
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  expiresAt DateTime
+  usedAt    DateTime?
+  revokedAt DateTime?
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([token])
+  @@index([userId])
+}
+
+model Category {
+  id        String          @id @default(cuid())
+  name      String
+  type      TransactionType
+  orgId     String
+  color     String          @default("#6366f1")
+  createdAt DateTime        @default(now())
+
+  organization Organization  @relation(fields: [orgId], references: [id])
+  transactions Transaction[]
+
+  @@unique([name, orgId, type])
+  @@index([orgId])
+}
+
+model Transaction {
+  id          String          @id @default(cuid())
+  amount      Decimal         @db.Decimal(15, 2)
+  type        TransactionType
+  description String
+  date        DateTime
+  orgId       String
+  userId      String
+  categoryId  String?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  deletedAt   DateTime?
+
+  organization Organization @relation(fields: [orgId], references: [id])
+  user         User         @relation(fields: [userId], references: [id])
+  category     Category?    @relation(fields: [categoryId], references: [id])
+
+  @@index([orgId])
+  @@index([orgId, date])
+  @@index([orgId, type])
+  @@index([orgId, createdAt])
+  @@index([userId])
+  @@index([categoryId])
+}

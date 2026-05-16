@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --sidebar-width: 260px;
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    @apply bg-space-bg text-white font-sans;
+    background-image: 
+      radial-gradient(1px 1px at 20px 30px, #ffffff, rgba(0,0,0,0)),
+      radial-gradient(1px 1px at 40px 70px, #ffffff, rgba(0,0,0,0)),
+      radial-gradient(1px 1px at 50px 160px, #ffffff, rgba(0,0,0,0)),
+      radial-gradient(1.5px 1.5px at 90px 40px, #ffffff, rgba(0,0,0,0)),
+      radial-gradient(1.5px 1.5px at 130px 80px, #ffffff, rgba(0,0,0,0)),
+      radial-gradient(2px 2px at 160px 120px, #ffffff, rgba(0,0,0,0));
+    background-repeat: repeat;
+    background-size: 200px 200px;
+  }
+
+  input, textarea, select {
+    @apply focus:outline-none font-mono tracking-widest;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-space-surface border border-space-border rounded-xl backdrop-blur-md shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] transition-all duration-300;
+  }
+
+  .card:hover {
+    @apply shadow-[0_8px_32px_0_rgba(0,245,212,0.1)] border-brand-500/30;
+    transform: translateY(-2px);
+  }
+
+  .btn-primary {
+    @apply relative bg-transparent text-brand-500 font-bold px-6 py-2.5 rounded-none border border-brand-500 uppercase tracking-[0.2em]
+           transition-all duration-300 overflow-hidden z-10 disabled:opacity-50 disabled:cursor-not-allowed
+           hover:shadow-[0_0_20px_rgba(0,245,212,0.5)] hover:bg-brand-500/10;
+  }
+
+  .btn-secondary {
+    @apply bg-transparent hover:bg-space-surface text-space-muted hover:text-white font-medium px-4 py-2 rounded-none 
+           border border-space-border transition-all duration-300 uppercase tracking-widest;
+  }
+
+  .btn-danger {
+    @apply bg-transparent hover:bg-expense/10 text-expense font-bold px-4 py-2 rounded-none 
+           border border-expense transition-all duration-300 uppercase tracking-widest
+           hover:shadow-[0_0_20px_rgba(255,56,100,0.4)];
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 bg-black/40 border border-space-border rounded-none text-sm text-brand-500
+           focus:ring-1 focus:ring-brand-500 focus:border-brand-500 focus:shadow-[0_0_10px_rgba(0,245,212,0.3)]
+           placeholder:text-space-muted transition-all duration-300 font-mono;
+  }
+
+  .badge-income {
+    @apply inline-flex items-center px-2 py-0.5 border border-income/30 text-xs font-mono tracking-wider 
+           bg-income/10 text-income shadow-[0_0_10px_rgba(57,255,20,0.2)];
+  }
+
+  .badge-expense {
+    @apply inline-flex items-center px-2 py-0.5 border border-expense/30 text-xs font-mono tracking-wider 
+           bg-expense/10 text-expense shadow-[0_0_10px_rgba(255,56,100,0.2)];
+  }
+
+  .sidebar-link {
+    @apply flex items-center gap-3 px-4 py-3 text-sm font-bold uppercase tracking-widest rounded-none 
+           text-space-muted hover:text-brand-500 transition-all duration-300 relative border-l-2 border-transparent hover:bg-white/5;
+  }
+
+  .sidebar-link.active {
+    @apply text-brand-500 bg-brand-500/10 border-brand-500 shadow-[inset_4px_0_10px_rgba(0,245,212,0.1)];
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
