@@ -2,6 +2,14 @@
 
 A production-grade full-stack SaaS built with Next.js, Express, Prisma, and PostgreSQL.
 
+## 🚀 Live Demo
+
+- **Frontend (Vercel)**: [https://expense-tracker-six-rouge-74.vercel.app/auth/login](https://expense-tracker-six-rouge-74.vercel.app/auth/login)
+- **Backend API (Render)**: [https://expense-tracker-eyto.onrender.com/api](https://expense-tracker-eyto.onrender.com/api)
+
+> **Test Account:**
+> Email: `admin@test.com` | Password: `password123`
+
 ## Features
 
 - 🔐 JWT authentication with refresh token rotation & reuse detection
@@ -116,22 +124,21 @@ Open http://localhost:3000 — register your organization and start managing fin
 
 ### Backend → Render
 1. Create a new Web Service on Render
-2. Connect your GitHub repo, set root to `backend/`
-3. Build command: `npm install && npx prisma generate && npm run build`
-4. Start command: `node dist/index.js`
-5. Add environment variables from `.env`
+2. Connect your GitHub repo, set root directory to `backend/`
+3. Build command: `npm install && npm run generate && npm run build`
+4. Start command: `npm run migrate && npm start`
+5. Add environment variables from `.env` (Ensure `NODE_ENV=production` and `DIRECT_URL` is set for Prisma migrations).
 
 ### Frontend → Vercel
-```bash
-cd frontend
-npx vercel --prod
-```
-Set `NEXT_PUBLIC_API_URL` to your Render backend URL.
+1. Create a new Project on Vercel
+2. Import the GitHub repo and select `frontend` as the Root Directory
+3. Vercel will automatically use Next.js presets (`npm run build`).
+4. Set the `NEXT_PUBLIC_API_URL` environment variable to `https://expense-tracker-eyto.onrender.com/api`.
 
 ### Database → Supabase
 1. Create project at supabase.com
-2. Copy the connection string (with pgBouncer pooling) to `DATABASE_URL`
-3. Run `npx prisma migrate deploy`
+2. Copy the Transaction connection string (port 6543, pgbouncer=true) to `DATABASE_URL`
+3. Copy the Session connection string (port 5432) to `DIRECT_URL`
 
 ---
 
@@ -144,8 +151,3 @@ Set `NEXT_PUBLIC_API_URL` to your Render backend URL.
 | `VERCEL_PROJECT_ID` | Vercel project ID |
 | `VERCEL_ORG_ID` | Vercel team/org ID |
 
----
-
-## Architecture
-
-See [ARCHITECTURE.md](./ARCHITECTURE.md) for detailed design decisions.
