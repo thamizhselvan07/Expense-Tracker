@@ -37,7 +37,7 @@ export const transactionController = {
   async getById(req: Request, res: Response, next: NextFunction) {
     try {
       const { orgId } = (req as AuthenticatedRequest).user;
-      const tx = await transactionService.getById(req.params.id, orgId);
+      const tx = await transactionService.getById(req.params.id as string, orgId);
       res.json(tx);
     } catch (err) {
       next(err);
@@ -47,7 +47,7 @@ export const transactionController = {
   async update(req: Request, res: Response, next: NextFunction) {
     try {
       const { orgId } = (req as AuthenticatedRequest).user;
-      const tx = await transactionService.update(req.params.id, orgId, req.body);
+      const tx = await transactionService.update(req.params.id as string, orgId, req.body);
       res.json(tx);
     } catch (err) {
       next(err);
@@ -57,7 +57,7 @@ export const transactionController = {
   async delete(req: Request, res: Response, next: NextFunction) {
     try {
       const { orgId } = (req as AuthenticatedRequest).user;
-      await transactionService.delete(req.params.id, orgId);
+      await transactionService.delete(req.params.id as string, orgId);
       res.status(204).send();
     } catch (err) {
       next(err);

@@ -32,7 +32,7 @@ export const categoryController = {
     try {
       const { orgId } = (req as AuthenticatedRequest).user;
       await prisma.category.delete({
-        where: { id: req.params.id, orgId },
+        where: { id: req.params.id as string, orgId },
       });
       res.status(204).send();
     } catch (err) {
